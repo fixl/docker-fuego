@@ -1,0 +1,9 @@
+version: '2'
+services:
+  trivy:
+    image: aquasec/trivy:latest
+    entrypoint: ""
+    working_dir: /src
+    volumes:
+      - .cache:/root/.cache/
+      - .:/src
