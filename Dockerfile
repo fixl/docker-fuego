@@ -3,7 +3,9 @@ FROM alpine:3.12
 ARG FUEGO_VERSION
 ARG FUEGO_CHECKSUM
 
-RUN mkdir /tmp/fuego \
+RUN apk add --no-cache \
+        jq \
+    && mkdir /tmp/fuego \
     && cd /tmp/fuego \
     && wget -q -O fuego.tar.gz https://github.com/sgarciac/fuego/releases/download/v${FUEGO_VERSION}/fuego_${FUEGO_VERSION}_Linux_64-bit.tar.gz \
     && if [ "${FUEGO_CHECKSUM}" != "$(sha256sum fuego.tar.gz | awk '{print $1}')" ]; then echo "Wrong sha256sum of downloaded file!"; exit 1; fi \
