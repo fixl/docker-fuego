@@ -17,6 +17,21 @@ EXTRACTED_FILE = extracted.tar
 
 TRIVY_COMMAND = docker-compose run --rm trivy
 
+# Computed
+MAJOR = $(shell echo ${FUEGO_VERSION} | awk -F. '{print $$1}')
+MINOR = $(shell echo ${FUEGO_VERSION} | awk -F. '{print $$1"."$$2}')
+PATCH = $(FUEGO_VERSION)
+
+GITLAB_IMAGE_LATEST = $(GITLAB_IMAGE)
+GITLAB_IMAGE_MAJOR = $(GITLAB_IMAGE):$(MAJOR)
+GITLAB_IMAGE_MINOR = $(GITLAB_IMAGE):$(MINOR)
+GITLAB_IMAGE_PATCH = $(GITLAB_IMAGE):$(PATCH)
+
+DOCKERHUB_IMAGE_LATEST = $(DOCKERHUB_IMAGE)
+DOCKERHUB_IMAGE_MAJOR = $(DOCKERHUB_IMAGE):$(MAJOR)
+DOCKERHUB_IMAGE_MINOR = $(DOCKERHUB_IMAGE):$(MINOR)
+DOCKERHUB_IMAGE_PATCH = $(DOCKERHUB_IMAGE):$(PATCH)
+
 build:
 	docker build \
 		--pull \
@@ -30,7 +45,16 @@ build:
 		--label "org.opencontainers.image.source=$(CI_PROJECT_URL)" \
 		--label "org.opencontainers.image.revision=$(CI_COMMIT_SHORT_SHA)" \
 		--label "info.fixl.gitlab.pipeline-url=$(CI_PIPELINE_URL)" \
-		--tag $(IMAGE_NAME) .
+		--tag $(IMAGE_NAME) \
+		--tag $(GITLAB_IMAGE_LATEST) \
+		--tag $(GITLAB_IMAGE_MAJOR) \
+		--tag $(GITLAB_IMAGE_MINOR) \
+		--tag $(GITLAB_IMAGE_PATCH) \
+		--tag $(DOCKERHUB_IMAGE_LATEST) \
+		--tag $(DOCKERHUB_IMAGE_MAJOR) \
+		--tag $(DOCKERHUB_IMAGE_MINOR) \
+		--tag $(DOCKERHUB_IMAGE_PATCH) \
+		.
 
 scan: $(EXTRACTED_FILE)
 	if [ ! -f gitlab.tpl ] ; then curl --output gitlab.tpl https://raw.githubusercontent.com/aquasecurity/trivy/master/contrib/gitlab.tpl;  fi
@@ -43,16 +67,16 @@ $(EXTRACTED_FILE):
 	docker save --output $(EXTRACTED_FILE) $(IMAGE_NAME)
 
 publishDockerhub:
-	docker tag $(IMAGE_NAME) $(DOCKERHUB_IMAGE)
-	docker push $(DOCKERHUB_IMAGE)
-	docker tag $(IMAGE_NAME) $(DOCKERHUB_IMAGE):$(TAG)
-	docker push $(DOCKERHUB_IMAGE):$(TAG)
+	docker push $(DOCKERHUB_IMAGE_LATEST)
+	docker push $(DOCKERHUB_IMAGE_MAJOR)
+	docker push $(DOCKERHUB_IMAGE_MINOR)
+	docker push $(DOCKERHUB_IMAGE_PATCH)
 
 publishGitlab:
-	docker tag $(IMAGE_NAME) $(GITLAB_IMAGE)
-	docker push $(GITLAB_IMAGE)
-	docker tag $(IMAGE_NAME) $(GITLAB_IMAGE):$(TAG)
-	docker push $(GITLAB_IMAGE):$(TAG)
+	docker push $(GITLAB_IMAGE_LATEST)
+	docker push $(GITLAB_IMAGE_MAJOR)
+	docker push $(GITLAB_IMAGE_MINOR)
+	docker push $(GITLAB_IMAGE_PATCH)
 
 gitRelease:
 	-git tag -d $(TAG)
@@ -62,4 +86,13 @@ gitRelease:
 	git push
 
 clean:
-	$(TRIVY_COMMAND) rm -rf gitlab.tpl .cache *.tar *.json
+	$(TRIVY_COMMAND) rm -rf gitlab.tpl .cache *.tar
+	-docker rmi $(IMAGE_NAME)
+	-docker rmi $(GITLAB_IMAGE_LATEST)
+	-docker rmi $(GITLAB_IMAGE_MAJOR)
+	-docker rmi $(GITLAB_IMAGE_MINOR)
+	-docker rmi $(GITLAB_IMAGE_PATCH)
+	-docker rmi $(DOCKERHUB_IMAGE_LATEST)
+	-docker rmi $(DOCKERHUB_IMAGE_MAJOR)
+	-docker rmi $(DOCKERHUB_IMAGE_MINOR)
+	-docker rmi $(DOCKERHUB_IMAGE_PATCH)

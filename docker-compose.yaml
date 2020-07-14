@@ -5,5 +5,8 @@ services:
     entrypoint: ""
     working_dir: /src
     volumes:
-      - .cache:/root/.cache/
+      - cache:/root/.cache/
       - .:/src
+
+volumes:
+  cache:
