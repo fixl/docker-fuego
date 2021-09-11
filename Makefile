@@ -16,6 +16,7 @@ TAG = $(FUEGO_VERSION)
 EXTRACTED_FILE = extracted.tar
 
 TRIVY_COMMAND = docker-compose run --rm trivy
+ANYBADGE_COMMAND = docker-compose run --rm anybadge
 
 # Computed
 MAJOR = $(shell echo ${FUEGO_VERSION} | awk -F. '{print $$1}')
@@ -66,6 +67,11 @@ scan: $(EXTRACTED_FILE)
 $(EXTRACTED_FILE):
 	docker save --output $(EXTRACTED_FILE) $(IMAGE_NAME)
 
+badges:
+	mkdir -p public
+	$(ANYBADGE_COMMAND) docker-size $(DOCKERHUB_IMAGE_PATCH) public/size
+	$(ANYBADGE_COMMAND) docker-version $(DOCKERHUB_IMAGE_PATCH) public/version
+
 publishDockerhub:
 	docker push $(DOCKERHUB_IMAGE_LATEST)
 	docker push $(DOCKERHUB_IMAGE_MAJOR)
@@ -96,3 +102,7 @@ clean:
 	-docker rmi $(DOCKERHUB_IMAGE_MAJOR)
 	-docker rmi $(DOCKERHUB_IMAGE_MINOR)
 	-docker rmi $(DOCKERHUB_IMAGE_PATCH)
+
+cleanAll:
+	$(TRIVY_COMMAND) rm -rf public
+	$(MAKE) clean

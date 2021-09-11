@@ -7,6 +7,12 @@ services:
     volumes:
       - cache:/root/.cache/
       - .:/src
-
+  anybadge:
+    image: registry.gitlab.com/fixl/docker-anybadge:latest
+    entrypoint: ""
+    working_dir: /src
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - .:/src
 volumes:
   cache:

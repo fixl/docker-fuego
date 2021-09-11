@@ -1,7 +1,10 @@
 # fuego Image
 
-[![](https://images.microbadger.com/badges/image/fixl/fuego.svg)](https://microbadger.com/images/fixl/fuego "Get your own image badge on microbadger.com")
-[![](https://images.microbadger.com/badges/version/fixl/fuego.svg)](https://microbadger.com/images/fixl/fuego "Get your own version badge on microbadger.com")
+[![pipeline status](https://gitlab.com/fixl/docker-fuego/badges/master/pipeline.svg)](https://gitlab.com/fixl/docker-fuego/-/commits/master)
+[![version](https://fixl.gitlab.io/docker-fuego/version.svg)](https://gitlab.com/fixl/docker-fuego/-/commits/master)
+[![size](https://fixl.gitlab.io/docker-fuego/size.svg)](https://gitlab.com/fixl/docker-fuego/-/commits/master)
+[![Docker Pulls](https://img.shields.io/docker/pulls/fixl/fuego)](https://hub.docker.com/r/fixl/fuego)
+[![Docker Pulls](https://img.shields.io/docker/stars/fixl/fuego)](https://hub.docker.com/r/fixl/fuego)
 
 A Docker container containing [fuego](https://github.com/sgarciac/fuego), a command-line firestore client.
 
