@@ -14,9 +14,10 @@ CI_PIPELINE_URL ?= local
 TAG = $(FUEGO_VERSION)
 
 EXTRACTED_FILE = extracted.tar
+DOCKER_BUILDKIT = 1
 
-TRIVY_COMMAND = docker-compose run --rm trivy
-ANYBADGE_COMMAND = docker-compose run --rm anybadge
+TRIVY_COMMAND = docker compose run --rm trivy
+ANYBADGE_COMMAND = docker compose run --rm anybadge
 
 # Computed
 MAJOR = $(shell echo ${FUEGO_VERSION} | awk -F. '{print $$1}')
@@ -35,6 +36,7 @@ DOCKERHUB_IMAGE_PATCH = $(DOCKERHUB_IMAGE):$(PATCH)
 
 build:
 	docker build \
+		--progress=plain \
 		--pull \
 		--build-arg FUEGO_VERSION=$(FUEGO_VERSION) \
 		--build-arg FUEGO_CHECKSUM=$(FUEGO_CHECKSUM) \
