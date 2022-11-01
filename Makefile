@@ -35,9 +35,10 @@ DOCKERHUB_IMAGE_MINOR = $(DOCKERHUB_IMAGE):$(MINOR)
 DOCKERHUB_IMAGE_PATCH = $(DOCKERHUB_IMAGE):$(PATCH)
 
 build:
-	docker build \
+	docker buildx build \
 		--progress=plain \
 		--pull \
+		--load \
 		--build-arg FUEGO_VERSION=$(FUEGO_VERSION) \
 		--build-arg FUEGO_CHECKSUM=$(FUEGO_CHECKSUM) \
 		--label "org.opencontainers.image.title=$(IMAGE_NAME)" \
