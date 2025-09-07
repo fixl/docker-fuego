@@ -81,7 +81,7 @@ publishDockerhub:
 	docker push $(DOCKERHUB_IMAGE_MINOR)
 	docker push $(DOCKERHUB_IMAGE_PATCH)
 
-publishGitlab:
+publishGitHub:
 	docker push $(GITHUB_IMAGE_LATEST)
 	docker push $(GITHUB_IMAGE_MAJOR)
 	docker push $(GITHUB_IMAGE_MINOR)
