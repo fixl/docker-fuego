@@ -1,8 +1,8 @@
 # fuego Image
 
-[![pipeline status](https://gitlab.com/fixl/docker-fuego/badges/master/pipeline.svg)](https://gitlab.com/fixl/docker-fuego/-/pipelines)
-[![version](https://fixl.gitlab.io/docker-fuego/version.svg)](https://gitlab.com/fixl/docker-fuego/-/commits/master)
-[![size](https://fixl.gitlab.io/docker-fuego/size.svg)](https://gitlab.com/fixl/docker-fuego/-/commits/master)
+[![Build Container](https://github.com/fixl/docker-fuego/actions/workflows/build.yml/badge.svg)](https://github.com/fixl/docker-fuego/actions/workflows/build.yml)
+[![version](https://fixl.github.io/docker-fuego/version.svg)](https://github.com/fixl/docker-fuego/commits/main/)
+[![size](https://fixl.github.io/docker-fuego/size.svg)](https://github.com/fixl/docker-fuego/commits/main/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/fixl/fuego)](https://hub.docker.com/r/fixl/fuego)
 [![Docker Stars](https://img.shields.io/docker/stars/fixl/fuego)](https://hub.docker.com/r/fixl/fuego)
 
